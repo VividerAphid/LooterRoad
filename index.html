@@ -3,6 +3,22 @@
     <title></title>
 </head>
     <link rel="stylesheet" href="main.css">
+
+    <script src="classes.js"></script>
+    <script src="itemDefinitons.js"></script>
 <body>
     Test page
+    <script>
+        let lootTable = [
+        {id:1, chance:50},
+        {id:2, chance:25},
+        {id:3, chance:10},
+        {id:4, chance:5},
+        {id:5, chance:5},
+        {id:6, chance:5}
+        ];
+        let cTemplate = new ChestTemplate(1, lootTable);
+        console.log(cTemplate.chanceList);
+        console.log(cTemplate.pickLoot(10));
+    </script>
 </body>
