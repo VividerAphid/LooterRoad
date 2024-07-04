@@ -1,3 +1,18 @@
 50 steps, see how high of total value of items you can collect
 
 Towns, chests, ambushes, caves, wilderness gathering
+
+Chest Types:
+    -All (Any item in the game can spawn in these)
+    -Coin stash
+    -Food
+
+
+
+v0.0.1
+ -Basic UI
+  -Inventory on left
+    -Click to open/close
+  -Game view in middle
+    -Map popup button
+  -Interaction menu on right

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="main.css">
 
     <script src="classes.js"></script>
-    <script src="itemDefinitons.js"></script>
+    <script src="itemDefinitions.js"></script>
 <body>
     Test page
     <script>
@@ -20,5 +20,12 @@
         let cTemplate = new ChestTemplate(1, lootTable);
         console.log(cTemplate.chanceList);
         console.log(cTemplate.pickLoot(10));
+        let testInventory = new Inventory(2);
+        testInventory.items = [{itemId: 1, amount:100}];
+        let dummyCoin = new Item(1, itemDefinitions[0])
+        console.log(testInventory.addItem(dummyCoin, 10));
+        console.log(testInventory.addItem(dummyCoin, 10));
+        console.log(testInventory.addItem(dummyCoin, 10));
+        console.log(testInventory); 
     </script>
 </body>
