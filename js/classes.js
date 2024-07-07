@@ -146,3 +146,26 @@ class Inventory{
         return false;
     }
 }
+
+class JourneyNode{
+    constructor(id, x, y, cons, type){
+        this.id = id;
+        this.x = x;
+        this.y = y;
+        this.connections = cons;
+        this.type = type;
+        this.visited = false;
+    }
+    
+    drawNode(art){
+        art.drawCircle(this.x, this.y, 10, "#f00");
+    }
+    drawConnections(art){
+        for(let r = 0; r < this.connections.length;r++){
+            if(this.connections[r].id > this.id){
+                this.beginPath();
+                
+            }
+        }
+    }
+}
