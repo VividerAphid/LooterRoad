@@ -15,9 +15,23 @@ body {
 	width: fit-content;
 }
 .scrollBarDiv{
-	max-width: 50%;
-	max-height: 500px;
+	max-width: 90%;
+	max-height: 90%;
 	overflow: scroll;
 	border: 3px gray solid;
 	border-radius: 5px;
+}
+#gameDiv{
+	position:absolute;
+	left: 5%;
+	min-width:90%;
+}
+#mapDiv{
+	display:none;
+	position:absolute;
+	top:10%;
+	left:25%;
+	max-width: 50%;
+	max-height: 70%;
+	min-width:50%;
 }

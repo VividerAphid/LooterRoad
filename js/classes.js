@@ -1,17 +1,44 @@
-class Chest{
-    constructor(id, tId, loot){
-        this.id = id;
+class Container{
+    constructor(size){
+        this.inventory = new Inventory(size);
+    }
+}
+
+class Chest extends Container{
+    constructor(size, tId, loot){
+        super(size);
         this.tId = tId;
-        this.loot = loot;
+        this.loadContents(loot);
+    }
+    loadContents(loot){
+        for(let r = 0; r < loot.length; r++){
+            let it = new Item(itemDefinitions[loot[r]]);
+            this.inventory.addItem(it, 1);
+        }
     }
 }
 
 class Item{
-    constructor(id, tId){
+    constructor(tId){
         //tId is pointer to itemTemplate
-        this.id = id;
         this.tId = tId;
-        this.name = tId.name;
+        this.name = tId.name; //For potential player renaming?
+        this.value = tId.value;
+    }
+    augment(item){
+        if(this.tId.stats.canAugment){
+            this.name = item.name + " " + this.name;
+            this.value = Math.round(item.value * .9) + this.value;
+        }
+        else{
+            console.log("This item is not augmentable!");
+        }
+    }
+    craft(){
+        if(this.stats.craftable){
+            let becomes = this.stats.becomes;
+            return [itemDefinitions[becomes], this.stats.craftAmount];
+        }
     }
 
 }
@@ -32,8 +59,8 @@ class ChestTemplate{
     }
     genChanceList(){
         let list = [];
-        for(let r = 0; r < this.lootTable.length; r++){
-            let lootItem = this.lootTable[r];
+        for(let r = 0; r < this.lootTable.table.length; r++){
+            let lootItem = this.lootTable.table[r];
             for(let t = 0; t < lootItem.chance; t++){
                 list.push(lootItem.id);
             }
@@ -51,6 +78,7 @@ class ItemTemplate{
         this.tags = tags;
         if(stats){this.stats = stats;}
     }
+
 }
 
 class Character{
@@ -68,19 +96,19 @@ class Inventory{
     }
     addItem(item, count){
         if(this.checkOpenStacks(item)){
-            console.log("Adding to stack");
+            //console.log("Adding to stack");
             let stack = this.items[this.findOpenStack(item)];
             stack.amount += count;
             return true;
         }
         else{
             if(this.checkOpenSlots()){
-                console.log("New stack");
+                //console.log("New stack");
                 this.items.push({itemId: item.tId.id, amount:count});
                 return true;
             }
             else{
-                console.log("Inventory full!");
+                //console.log("Inventory full!");
                 return false;
             }
         }

@@ -4,32 +4,19 @@
 </head>
     <link rel="stylesheet" href="main.css">
 
-    <script src="classes.js"></script>
-    <script src="itemDefinitions.js"></script>
-    <script src="lootTableDefinitions.js"></script>
+    <script src="js/utils/draw.js"></script>
+
+    <script src="js/classes.js"></script>
+    <script src="js/definitions/itemDefinitions.js"></script>
+    <script src="js/definitions/lootTableDefinitions.js"></script>
+
+    <script src="main.js"></script>
 <body>
-    Test page
-    <div class="scrollBarDiv">
-        <canvas id="map" height=3000></canvas>
+    <div class="scrollBarDiv" id="gameDiv">
+        <canvas id="gameCanvas" height=1000></canvas>
     </div>
-    <script>
-        let lootTable = [
-        {id:1, chance:50},
-        {id:2, chance:25},
-        {id:3, chance:10},
-        {id:4, chance:5},
-        {id:5, chance:5},
-        {id:6, chance:5}
-        ];
-        let cTemplate = new ChestTemplate(1, lootTable);
-        console.log(cTemplate.chanceList);
-        console.log(cTemplate.pickLoot(10));
-        let testInventory = new Inventory(2);
-        testInventory.items = [{itemId: 1, amount:100}];
-        let dummyCoin = new Item(1, itemDefinitions[0])
-        console.log(testInventory.addItem(dummyCoin, 10));
-        console.log(testInventory.addItem(dummyCoin, 10));
-        console.log(testInventory.addItem(dummyCoin, 10));
-        console.log(testInventory); 
-    </script>
+    <div class="scrollBarDiv" id="mapDiv">
+        <canvas id="mapCanvas" height=1500></canvas>
+    </div>
+    <script src="js/runner.js"></script>
 </body>
