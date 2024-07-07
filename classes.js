@@ -1,7 +1,0 @@
-class Chest{
-    
-}
-
-class Item{
-
-}
