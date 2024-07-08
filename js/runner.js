@@ -31,11 +31,15 @@
 
     document.getElementById("mapCanvas").onclick = function(e){
         let coords = getClickCoords(e);
-        let result = checkClickHit(coords, mapUIs);
-        console.log(result);
-        if(result != false){
-            result.action();
+        let resultUI = checkClickHit(coords, mapUIs);
+        //console.log(resultUI);
+        if(resultUI != false){
+            resultUI.action();
             render(gameSession);
+        }
+        let resultGame = checkClickHit(coords, gameSession.gameData.map);
+        if(resultGame != false){
+            checkMapProxy(gameSession.gameData.map[0], resultGame);
         }
         //toggleMap("none");
     };

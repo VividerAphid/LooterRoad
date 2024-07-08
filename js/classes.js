@@ -155,20 +155,25 @@ class JourneyNode{
         this.connections = cons;
         this.type = type;
         this.visited = false;
+        this.width = 6;
+        this.height = 6;
     }
     
     drawNode(art){
-        art.drawCircle(this.x, this.y, 3, "#f00");
+        let offset = this.width/2; //To account for circle being drawn from center for click events
+        art.drawCircle((this.x+offset), (this.y+offset), offset, "#f00"); //offset is also radius
     }
     drawConnections(art){
         for(let r = 0; r < this.connections.length;r++){
             let con = this.connections[r];
+            let offset = this.width/2;
+            let conOffset = con.width/2;
             if(con.id > this.id){
                 art.ctx.beginPath();
                 art.ctx.strokeStyle = "#f00";
                 art.ctx.fillStyle = "#f00";
-                art.ctx.moveTo(this.x, this.y);
-                art.ctx.lineTo(con.x, con.y);
+                art.ctx.moveTo((this.x+offset), (this.y+offset));
+                art.ctx.lineTo((con.x+conOffset), (con.y+conOffset));
                 art.ctx.stroke();
             }
         }
