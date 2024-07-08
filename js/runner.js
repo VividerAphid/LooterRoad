@@ -47,7 +47,7 @@
     let gameDraw = new Draw(document.getElementById("gameCanvas").getContext('2d'), "#200");
     let mapDraw = new Draw(document.getElementById("mapCanvas").getContext('2d'), "#020");
 
-    let gameMap = generateMapSingleLane();
+    let gameMap = generateMap();//generateMapSingleLane();
 
     let gameSession = new Game(mapUIs, gameUIs, {gameDraw:gameDraw, mapDraw:mapDraw}, {map:gameMap});
 

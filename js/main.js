@@ -27,19 +27,73 @@ function generateMap(){
     let map = [];
     let maxSteps = 50;
     let currentSteps = 0;
-    map.push(new JourneyNode(1, 250, 10, [], "start"));
+    map.push(new JourneyNode(1, 250, 25, [], "start"));
     currentSteps++;
-    let branches = Math.floor(Math.random()*3) + 1;
-    let nodeWidthSpan = 250;
-    let spanIncrement = nodeWidthSpan / branches;
-    for(let r = 0; r < branches; r++){
-        let x = (r*spanIncrement) + 125;
-        let y = (currentSteps*20) + 20;
-        map.push(new JourneyNode(r+2, x, y, [map[0]],"blank"));
-        map[0].connections.push(map[r+1]);
+    let laneRange = 50;
+    let laneYRange = 10;
+    let yMin = 29;
+    let leftMin = 160;
+    let centerMin = 225;
+    let rightMin = 290;
+
+    let L1= map[0],R1= map[0],C= map[0];
+    let L2,R2 ="";
+    let id = 2;
+    // map.push(new JourneyNode(2, (Math.floor(Math.random()*laneRange)+leftMin), (Math.floor(Math.random()*laneYRange)+45), [map[0]], "blank"));
+    // map.push(new JourneyNode(3, (Math.floor(Math.random()*laneRange)+centerMin), (Math.floor(Math.random()*laneYRange)+45), [map[0]], "blank"));
+    // map.push(new JourneyNode(4, (Math.floor(Math.random()*laneRange)+rightMin), (Math.floor(Math.random()*laneYRange)+45), [map[0]], "blank"));
+    // map[0].connections.push(map[1],map[2],map[3]);
+    for(currentSteps; currentSteps < maxSteps; currentSteps++){
+        let x = (Math.floor(Math.random()*laneRange)+centerMin);
+        let y = (Math.floor(Math.random()*laneYRange)+(currentSteps*yMin)) + 20;
+        let cons = [C];
+        let newNode = new JourneyNode(id, x, y, cons, "C");
+        map.push(newNode);
+        id++;
+        C.connections.push(newNode);
+        C = newNode;
+        if((Math.random() > .4) && currentSteps < 49){
+            let x = (Math.floor(Math.random()*laneRange)+leftMin);
+            let y = (Math.floor(Math.random()*laneYRange)+(currentSteps*yMin))+ 20;
+            let cons = [];
+            if(L1){cons.push(L1);}
+            else{cons.push(C)}
+            let newNode = new JourneyNode(id, x, y, cons, "L");
+            map.push(newNode);
+            id++;
+            if(L1){L1.connections.push(newNode);}
+            else{C.connections.push(newNode)}
+            L1 = newNode;
+        }
+        else{
+            if(L1){
+                C.connections.push(L1);
+                L1.connections.push(C);
+                L1 = "";
+            }
+        }
+        if((Math.random() > .4) && currentSteps < 49){
+            let x = (Math.floor(Math.random()*laneRange)+rightMin);
+            let y = (Math.floor(Math.random()*laneYRange)+(currentSteps*yMin))+ 20;
+            let cons = [];
+            if(R1){cons.push(R1);}
+            else{cons.push(C)}
+            let newNode = new JourneyNode(id, x, y, cons, "L");
+            map.push(newNode);
+            id++;
+            if(R1){R1.connections.push(newNode);}
+            else{C.connections.push(newNode)}
+            R1 = newNode;
+        }
+        else{
+            if(R1){
+                C.connections.push(R1);
+                R1.connections.push(C);
+                R1 = ""
+            }
+        }
     }
-    
-    //console.log(map);
+    console.log(map);
     return map;
 }
 
