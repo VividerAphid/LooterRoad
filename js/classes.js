@@ -158,13 +158,18 @@ class JourneyNode{
     }
     
     drawNode(art){
-        art.drawCircle(this.x, this.y, 10, "#f00");
+        art.drawCircle(this.x, this.y, 3, "#f00");
     }
     drawConnections(art){
         for(let r = 0; r < this.connections.length;r++){
-            if(this.connections[r].id > this.id){
-                this.beginPath();
-                
+            let con = this.connections[r];
+            if(con.id > this.id){
+                art.ctx.beginPath();
+                art.ctx.strokeStyle = "#f00";
+                art.ctx.fillStyle = "#f00";
+                art.ctx.moveTo(this.x, this.y);
+                art.ctx.lineTo(con.x, con.y);
+                art.ctx.stroke();
             }
         }
     }

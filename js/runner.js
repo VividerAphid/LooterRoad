@@ -1,16 +1,22 @@
 (function(){
-    let testChestTemplate = new ChestTemplate(1, chestTables.everything);
-    console.log(testChestTemplate);
-    console.log(testChestTemplate.pickLoot(5));
-    let coinChestTemplate = new ChestTemplate(2, chestTables.everything);
-    let testChest = new Chest(10, coinChestTemplate, coinChestTemplate.pickLoot(15));
-    console.log(testChest);
+    // let testChestTemplate = new ChestTemplate(1, chestTables.everything);
+    // console.log(testChestTemplate);
+    // console.log(testChestTemplate.pickLoot(5));
+    // let coinChestTemplate = new ChestTemplate(2, chestTables.everything);
+    // let testChest = new Chest(10, coinChestTemplate, coinChestTemplate.pickLoot(15));
+    // console.log(testChest);
 
     let gameUIs = [new UIElement("MapBtn", 10, 10, 50, 50)];
     let mapUIs = [new UIElement("CloseBtn", 10, 10, 50, 50)];
 
-    gameUIs[0].action = function(){toggleMap("inline")};
-    mapUIs[0].action = function(){toggleMap("none")};
+    gameUIs[0].action = function(){
+        toggleMap("inline");
+        gameSession.mode = "map";
+    };
+    mapUIs[0].action = function(){
+        toggleMap("none");
+        gameSession.mode = "game";
+    };
 
     document.getElementById("gameCanvas").onclick = function(e){
         let coords = getClickCoords(e);
@@ -18,6 +24,7 @@
         console.log(result);
         if(result != false){
             result.action();
+            render(gameSession);
         }
         //toggleMap("inline");
     };
@@ -28,10 +35,18 @@
         console.log(result);
         if(result != false){
             result.action();
+            render(gameSession);
         }
         //toggleMap("none");
     };
 
     let gameDraw = new Draw(document.getElementById("gameCanvas").getContext('2d'), "#200");
     let mapDraw = new Draw(document.getElementById("mapCanvas").getContext('2d'), "#020");
+
+    let gameMap = generateMapSingleLane();
+
+    let gameSession = new Game(mapUIs, gameUIs, {gameDraw:gameDraw, mapDraw:mapDraw}, {map:gameMap});
+
+    render(gameSession);
+    
 })();

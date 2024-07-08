@@ -7,7 +7,7 @@ function getClickCoords(e) {
     var rect = e.target.getBoundingClientRect();
     var x = e.clientX - rect.left; //x position within the element.
     var y = e.clientY - rect.top;  //y position within the element.
-    //console.log("x : " + x + " ; y : " + y);
+    console.log("x : " + x + " ; y : " + y);
     return([x,y]);
 }
 
