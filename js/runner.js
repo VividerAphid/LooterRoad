@@ -31,11 +31,15 @@
 
     document.getElementById("mapCanvas").onclick = function(e){
         let coords = getClickCoords(e);
-        let result = checkClickHit(coords, mapUIs);
-        console.log(result);
-        if(result != false){
-            result.action();
+        let resultUI = checkClickHit(coords, mapUIs);
+        //console.log(resultUI);
+        if(resultUI != false){
+            resultUI.action();
             render(gameSession);
+        }
+        let resultGame = checkClickHit(coords, gameSession.gameData.map);
+        if(resultGame != false){
+            checkMapProxy(gameSession.gameData.map[0], resultGame);
         }
         //toggleMap("none");
     };
@@ -43,7 +47,7 @@
     let gameDraw = new Draw(document.getElementById("gameCanvas").getContext('2d'), "#200");
     let mapDraw = new Draw(document.getElementById("mapCanvas").getContext('2d'), "#020");
 
-    let gameMap = generateMapSingleLane();
+    let gameMap = generateMap();//generateMapSingleLane();
 
     let gameSession = new Game(mapUIs, gameUIs, {gameDraw:gameDraw, mapDraw:mapDraw}, {map:gameMap});
 
