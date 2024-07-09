@@ -25,18 +25,19 @@ function render(session){
 
 function generateMap(){
     let map = [];
-    let maxSteps = 50;
+    let maxSteps = 25;
     let currentSteps = 0;
     map.push(new JourneyNode(1, 250, 25, [], "start"));
     currentSteps++;
     let laneRange = 50;
     let laneYRange = 10;
     let yMin = 29;
-    let leftMin = 160;
+    let leftMin = 130;
     let centerMin = 225;
-    let rightMin = 290;
+    let rightMin = 330;
 
     let L1= map[0],R1= map[0],C= map[0];
+    let Llast = "", Rlast = "";
     let L2,R2 ="";
     let id = 2;
     // map.push(new JourneyNode(2, (Math.floor(Math.random()*laneRange)+leftMin), (Math.floor(Math.random()*laneYRange)+45), [map[0]], "blank"));
@@ -44,17 +45,11 @@ function generateMap(){
     // map.push(new JourneyNode(4, (Math.floor(Math.random()*laneRange)+rightMin), (Math.floor(Math.random()*laneYRange)+45), [map[0]], "blank"));
     // map[0].connections.push(map[1],map[2],map[3]);
     for(currentSteps; currentSteps < maxSteps; currentSteps++){
-        let x = (Math.floor(Math.random()*laneRange)+centerMin);
-        let y = (Math.floor(Math.random()*laneYRange)+(currentSteps*yMin)) + 20;
-        let cons = [C];
-        let newNode = new JourneyNode(id, x, y, cons, "C");
-        map.push(newNode);
-        id++;
-        C.connections.push(newNode);
-        C = newNode;
-        if((Math.random() > .4) && currentSteps < 49){
+        let closeR = false;
+        let closeL = false;
+        if((Math.random() > .45) && currentSteps < (maxSteps-1)){
             let x = (Math.floor(Math.random()*laneRange)+leftMin);
-            let y = (Math.floor(Math.random()*laneYRange)+(currentSteps*yMin))+ 20;
+            let y = (currentSteps*yMin)+ 20; //(Math.floor(Math.random()*laneYRange)+(currentSteps*yMin))+ 20;
             let cons = [];
             if(L1){cons.push(L1);}
             else{cons.push(C)}
@@ -67,14 +62,12 @@ function generateMap(){
         }
         else{
             if(L1){
-                C.connections.push(L1);
-                L1.connections.push(C);
-                L1 = "";
+                closeL = true;
             }
         }
-        if((Math.random() > .4) && currentSteps < 49){
+        if((Math.random() > .45) && currentSteps < (maxSteps-1)){
             let x = (Math.floor(Math.random()*laneRange)+rightMin);
-            let y = (Math.floor(Math.random()*laneYRange)+(currentSteps*yMin))+ 20;
+            let y = (currentSteps*yMin)+ 20; //(Math.floor(Math.random()*laneYRange)+(currentSteps*yMin))+ 20;
             let cons = [];
             if(R1){cons.push(R1);}
             else{cons.push(C)}
@@ -87,13 +80,45 @@ function generateMap(){
         }
         else{
             if(R1){
-                C.connections.push(R1);
-                R1.connections.push(C);
-                R1 = ""
+                closeR = true;      
+            }
+        }
+        let x = (Math.floor(Math.random()*laneRange)+centerMin);
+        let y = (currentSteps*yMin)+ 20; //(Math.floor(Math.random()*laneYRange)+(currentSteps*yMin))+ 20;
+        let cons = [C];
+        let newNode = new JourneyNode(id, x, y, cons, "C");
+        map.push(newNode);
+        id++;
+        C.connections.push(newNode);
+        if(Llast){
+            C.connections.push(Llast);
+            Llast.connections.push(C);
+            Llast = "";
+        }
+        if(Rlast){
+            C.connections.push(Rlast);
+            Rlast.connections.push(C);
+            Rlast = "";
+        }
+        C = newNode;
+        if(closeR){
+            Rlast = R1;
+            R1 = "";
+            if(currentSteps == maxSteps-1){
+                C.connections.push(Rlast);
+                Rlast.connections.push(C);
+            }
+        }
+        if(closeL){
+            Llast = L1;
+            L1 = "";
+            if(currentSteps == maxSteps-1){
+                C.connections.push(Llast);
+                Llast.connections.push(C);
             }
         }
     }
-    console.log(map);
+    //console.log(map);
     return map;
 }
 
